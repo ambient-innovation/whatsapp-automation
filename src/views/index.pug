@@ -1,0 +1,38 @@
+doctype html
+html
+    head
+        title= 'WhatsApp Bot'
+        // Bootstrap CSS
+        link(href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous")
+    body
+        div(class='container')
+            h1= 'WhatsApp Bot'
+
+            // Form for specifying a person to send a message to, specify a time at which the message will be sent and a message to send
+            form(id='whatsapp-form')
+                div(class="mb-3")
+                    label(for="person" class="form-label") Person
+                    input(name="person" type="text" class="form-control" id="person" aria-describedby="personHelp")
+
+                div(class="mb-3")
+                    label(for="time" class="form-label") Time
+                    input(name="time" type="text" class="form-control" id="time" aria-describedby="timeHelp")
+                    // Help text
+                    div(id="emailHelp" class="form-text") In Format HH:MM
+
+                div(class="mb-3")
+                    label(for="text" class="form-label") Text
+                    textarea(name="text" class="form-control" id="text" rows=3 aria-describedby="textHelp")
+
+                button(class='btn btn-primary' type='button' id="submit-btn" title="Start WhatsApp Bot" onclick='onButtonClick()') Start WhatsApp Bot
+
+        // Bootstrap JS
+        script(src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous")
+        // jQuery
+        script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js')
+
+        script.
+          function onButtonClick() {
+            // Send values of elements to 'localhost:<YOUR_PORT>/start-whatsapp-bot'
+            $.post('start-whatsapp-bot', $('#whatsapp-form').serialize())
+          }
