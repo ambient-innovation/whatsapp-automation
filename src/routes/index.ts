@@ -1,7 +1,10 @@
-import {Response, Request, Router} from 'express'
+import {Router} from 'express';
+import index from './indexRoute';
 
-// Instantiate router
-const route = Router()
+// guaranteed to get dependencies
+export default () => {
+  const app = Router();
+  index(app)
 
-// Specifies, that a get-call on 'localhost:<YOUR_PORT>/' will return the 'index.pug' template
-export default route.get('/', async (req: Request, res: Response): Promise<any> => res.render('index'))
+  return app
+}
