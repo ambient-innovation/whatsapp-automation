@@ -23,13 +23,13 @@ export default class SendMessageService {
   public async sendMessage() {
     if (!this.client) return
 
-    const chats = this.client.getChats()
+    const chats = await this.client.getChats()
     // const contacts = client.getContacts()
 
     // const chatNames = chats.map(chat => chat.name)
     // console.log(chatNames)
 
-    const filteredChats = (await chats).filter(chat => chat.name.includes(this.person))
+    const filteredChats = chats.filter(chat => chat.name.toLowerCase().includes(this.person.toLowerCase()))
     const desiredChat = filteredChats[0]
 
     if (!desiredChat) return
