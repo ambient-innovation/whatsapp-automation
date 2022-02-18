@@ -78,7 +78,6 @@ export default route.post(
 
     if (!filteredChats) return  // Return early if no chat was found
 
-
     // Get the first element of the filtered array (the array should mostly only consist of one chat object anyway,
     // depending on how broad or specified the person field was filled in the form
     const desiredChat = filteredChats[0]
