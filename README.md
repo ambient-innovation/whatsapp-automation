@@ -170,7 +170,7 @@ html
             }
 ```
 
-14. In order for our view to be "visible" (ie: rendered) we need to slightly adjust `routes/index.ts`:
+16. In order for our view to be "visible" (ie: rendered) we need to slightly adjust `routes/index.ts`:
 
 ```ts
 // src/routes/index.ts
@@ -188,7 +188,7 @@ The data however is not being handled... A route is missing 😐
 
 ---
 
-16. Create a file `startWhatsAppBot.ts` in your `routes` folder:
+17. Create a file `startWhatsAppBot.ts` in your `routes` folder:
 
 ```ts
 // src/routes/startWhatsAppBot.ts
@@ -210,7 +210,7 @@ export default route.post(
 )
 ```
 
-17. For the route to be accessible we need to adjust `src/index.ts`:
+18. For the route to be accessible we need to adjust `src/index.ts`:
 
 ```ts
 // src/index.ts
@@ -224,7 +224,7 @@ app.use(startWhatsAppBotRoute)
 // ...
 ```
 
-18. Now we can submit the form with data and receive the values in our backend!
+19. Now we can submit the form with data and receive the values in our backend!
 
 ---
 
@@ -234,7 +234,7 @@ Now for that automated whatsapp message... 🤔
 
 ---
 
-19. First, lets add basic validation to our form data:
+20. First, lets add basic validation to our form data:
 
 ```ts
 // src/routes/startWhatsAppBot.ts
@@ -261,7 +261,7 @@ export default route.post(
 )
 ```
 
-20. Having done that, let's extract the hour and minute from our time input:
+21. Having done that, let's extract the hour and minute from our time input:
 
 ```ts
 // src/routes/startWhatsAppBot.ts
@@ -284,10 +284,10 @@ const minute = parseInt(timeArray[1], 10)  // Cast the minute to an integer of b
 res.sendStatus(200)
 ```
 
-21. Install the necessary package for accessing and navigating whatsapp: `npm i whatsapp-web.js`
+22. Install the necessary package for accessing and navigating whatsapp: `npm i whatsapp-web.js`
 
 
-22. Extend `startWhatsAppBot.ts` to instantiate a whatsApp client and add eventListeners:
+23. Extend `startWhatsAppBot.ts` to instantiate a whatsApp client and add eventListeners:
 
 ```ts
 // src/routes/startWhatsAppBot.ts
@@ -328,7 +328,7 @@ client.on('ready', () => {
 await client.initialize();
 ```
 
-23. If we now submit our form we will see, that the client is successfully initialised and that the qr event is
+24. If we now submit our form we will see, that the client is successfully initialised and that the qr event is
     triggered.
 
     However, the received qr data is not readable for us, and we can not use it to log in.
@@ -336,10 +336,10 @@ await client.initialize();
     Wouldn't it be nice, if we could properly render the qr data to a qr code we can scan with our phone?
 
 
-24. The package `qrcode-terminal` takes care of exactly that! Install it with: `npm i qrcode-terminal`
+25. The package `qrcode-terminal` takes care of exactly that! Install it with: `npm i qrcode-terminal`
 
 
-25. Modify the qr event listener:
+26. Modify the qr event listener:
 
 ```ts
 // src/routes/startWhatsAppBot.ts
@@ -357,15 +357,15 @@ client.on('qr', qr => {
 });
 ```
 
-26. If you now submit your form, you will see a qr code in your terminal, which you can scan with your phone to log into
+27. If you now submit your form, you will see a qr code in your terminal, which you can scan with your phone to log into
     WhatsApp.
 
 
-27. **BUT:** You might realise, you have to log in _every time_ you submit your form. This is where `session.json` comes
+28. **BUT:** You might realise, you have to log in _every time_ you submit your form. This is where `session.json` comes
     into play.
 
 
-28. Modify `startWhatsAppBot.ts` to try to read the stored session from our `session.json`:
+29. Modify `startWhatsAppBot.ts` to try to read the stored session from our `session.json`:
 
 ```ts
 // src/routes/startWhatsAppBot.ts
@@ -415,7 +415,7 @@ Let's dive into the functionalities of `whatsapp-web.js`!
 
 ---
 
-29. Extend `startWhatsAppBot.ts` so that the client gets all chats and let's filter the chats for the person specified
+30. Extend `startWhatsAppBot.ts` so that the client gets all chats and let's filter the chats for the person specified
     in our form:
 
 ```ts
@@ -440,12 +440,12 @@ await desiredChat.sendMessage(text)  // Send a message to the chat
 client?.destroy()  // Close the connection, once the chat was sent
 ```
 
-30. To send the message at a specified time, we need to be able to schedule sending the message.
+31. To send the message at a specified time, we need to be able to schedule sending the message.
 
     This can be achieved with a little help of `node-cron`: `npm i node-cron`
 
 
-31. Having installed `node-cron`, we can now schedule a task to be sent at the specified time:
+32. Having installed `node-cron`, we can now schedule a task to be sent at the specified time:
 
     For more info on the cron syntax, refer to
     the [node-cron documentation](https://github.com/node-cron/node-cron#cron-syntax).
@@ -471,7 +471,7 @@ cron.schedule(`${minute} ${hour} * * *`, async () => {
 });
 ```
 
-32. Finally, lets send a quick message back to the frontend, informing, that the message will be sent:
+33. Finally, lets send a quick message back to the frontend, informing, that the message will be sent:
 
 ```ts
 // src/routes/startWhatsAppBot.ts
